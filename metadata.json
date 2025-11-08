@@ -1,0 +1,7 @@
+{
+  "name": "Video Hub",
+  "description": "An application to upload or capture video from your camera. It features an expandable history panel and a clean user interface.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
