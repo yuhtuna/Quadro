@@ -8,9 +8,9 @@ const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   const [history, setHistory] = useState<HistoryItem[]>([
-    { id: '1', name: 'Fishy.mp4', date: '2023-10-26', thumbnailUrl: 'https://png.pngtree.com/png-clipart/20250604/original/pngtree-animated-vegetable-carrot-with-funny-face-png-image_21124129.png' },
-    { id: '2', name: 'TUAN.mov', date: '2023-10-25', thumbnailUrl: 'https://picsum.photos/id/1018/100/100' },
-    { id: '3', name: 'HOSHUA.avi', date: '2023-10-24', thumbnailUrl: 'https://picsum.photos/id/1025/100/100' },
+    { id: '1', name: 'First Capture.mp4', date: '2023-10-26', thumbnailUrl: 'https://picsum.photos/id/1015/100/100' },
+    { id: '2', name: 'Mountain View.mov', date: '2023-10-25', thumbnailUrl: 'https://picsum.photos/id/1018/100/100' },
+    { id: '3', name: 'Beach Sunset.avi', date: '2023-10-24', thumbnailUrl: 'https://picsum.photos/id/1025/100/100' },
   ]);
 
   const toggleSidebar = useCallback(() => {

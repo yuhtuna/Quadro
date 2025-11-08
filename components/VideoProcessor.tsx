@@ -125,7 +125,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
         ></video>
         
         {!hasVideo && mode === 'upload' && (
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500 dark:text-gray-400 p-8">
+            <div className="text-center text-gray-500 dark:text-gray-400 p-8">
                 <UploadIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"/>
                 <p className="mt-2 text-lg font-semibold">Upload a video file</p>
                 <p className="text-sm">Click the button below to select a video.</p>

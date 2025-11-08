@@ -1,12 +1,11 @@
 # Backend Setup
 
-This document provides instructions on how to set up and run the backend server for local development.
+This document provides instructions on how to set up and run the backend server for local development. This setup uses an in-memory database, so **no external database is required**.
 
 ## Prerequisites
 
 - Node.js
 - npm
-- MongoDB (running locally)
 
 ## Installation
 
@@ -18,22 +17,19 @@ This document provides instructions on how to set up and run the backend server 
 ## Configuration
 
 1.  Create a `.env` file in the `backend` directory.
-2.  Add the following environment variables to the `.env` file:
+2.  Add the following environment variable to the `.env` file:
     ```
-    MONGO_URI=mongodb://localhost:27017/local_db
     JWT_SECRET=a_secure_secret_key
     ```
-    - `MONGO_URI`: The connection string for your local MongoDB instance.
     - `JWT_SECRET`: A strong, unique secret for JWT signing.
 
 ## Running the Server
 
-1.  Make sure your local MongoDB server is running.
-2.  From the root of the project, start the server:
+1.  From the root of the project, start the server:
     ```bash
     node backend/server.js
     ```
-3.  The server will be running on `http://localhost:5000`.
+2.  The server will be running on `http://localhost:5000`.
 
 ## API Documentation
 
