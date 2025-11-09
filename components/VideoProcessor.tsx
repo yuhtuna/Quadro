@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { UploadIcon, CameraIcon } from './Icons';
+import videoService from '../services/videoService';
 
 interface VideoProcessorProps {
   onNewHistoryItem: (name: string) => void;
@@ -15,8 +16,13 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const cleanupCamera = useCallback(() => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop();
+    }
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
       mediaStreamRef.current = null;
@@ -66,31 +72,56 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = () => {
-    if (!videoFile && mode === 'upload') {
-        alert("Please upload a video first.");
-        return;
+  const handleStartRecording = () => {
+    if (mediaStreamRef.current) {
+      const recordedChunks: Blob[] = [];
+      mediaRecorderRef.current = new MediaRecorder(mediaStreamRef.current);
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+      mediaRecorderRef.current.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+        const url = URL.createObjectURL(blob);
+        setVideoFile(new File([blob], `capture-${new Date().toISOString()}.mp4`, { type: 'video/mp4' }));
+        setVideoSrc(url);
+      };
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
     }
-    if (!mediaStreamRef.current && mode === 'camera') {
-        alert("Camera is not active.");
-        return;
+  };
+
+  const handleStopRecording = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!videoFile) {
+      alert("Please upload or record a video first.");
+      return;
     }
 
     setIsLoading(true);
-    const fileName = videoFile?.name || `capture-${new Date().toISOString()}.mp4`;
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Submitting video:', fileName);
+    const fileName = videoFile.name;
+
+    try {
+      await videoService.processVideo(videoFile);
       onNewHistoryItem(fileName);
+    } catch (error) {
+      console.error('Error processing video:', error);
+      alert('Error processing video. Please try again.');
+    } finally {
       setIsLoading(false);
       setVideoFile(null);
       setVideoSrc(null);
       if(fileInputRef.current) fileInputRef.current.value = "";
-      // Don't switch mode, user might want to capture/upload another one
-    }, 2000);
+    }
   };
-  
+
   const hasVideo = !!videoSrc || (mode === 'camera' && !!mediaStreamRef.current);
 
   return (
@@ -118,7 +149,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
         <video
           ref={videoRef}
           src={videoSrc || ''}
-          controls={mode === 'upload' && !!videoSrc}
+          controls={!!videoSrc}
           autoPlay={mode === 'camera'}
           muted={mode === 'camera'}
           className={`w-full h-full object-contain transition-opacity duration-300 ${hasVideo ? 'opacity-100' : 'opacity-0'}`}
@@ -140,6 +171,12 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
                 <CameraIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"/>
                 <p className="mt-2 text-lg font-semibold">Camera Preview</p>
                 <p className="text-sm">Your camera feed will appear here.</p>
+                {!isRecording && <button onClick={handleStartRecording} className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                    Start Recording
+                </button>}
+                {isRecording && <button onClick={handleStopRecording} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                    Stop Recording
+                </button>}
             </div>
         )}
 
@@ -155,7 +192,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
       <div className="flex-shrink-0 mt-6 text-center">
         <button
           onClick={handleSubmit}
-          disabled={!hasVideo || isLoading}
+          disabled={!videoFile || isLoading}
           className="w-full max-w-md px-6 py-3 text-base font-semibold text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 disabled:bg-gray-400 dark:disabled:bg-gray-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 dark:focus:ring-offset-gray-800 focus:ring-green-500 transition-all duration-200"
         >
           {isLoading ? 'Submitting...' : 'Submit Video'}

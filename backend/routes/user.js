@@ -68,4 +68,24 @@ router.post('/login', userController.login);
  */
 router.get('/me', protect, userController.getMe);
 
+/**
+ * @swagger
+ * /api/user/{userId}:
+ *   get:
+ *     summary: Get user by ID
+ *     description: Get the details of a user by their ID.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user details
+ *       404:
+ *         description: User not found
+ */
+router.get('/:userId', userController.getUser);
+
 module.exports = router;
