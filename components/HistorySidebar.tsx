@@ -34,10 +34,10 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, history }) => {
                 <p className="text-xs text-gray-500 dark:text-gray-400">{item.date}</p>
               </div>
               <div className="flex items-center ml-2">
-                <button className="p-1 rounded-md text-yellow-500 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
+                <button className="p-1 rounded-md text-gray-500 dark:text-gray-400 hover:text-yellow-900 dark:hover:text-yellow hover:bg-gray-200 dark:hover:bg-gray-600">
                     <EditIcon className="w-4 h-4" />
                 </button>
-                <button className="p-1 rounded-md text-red-500 dark:text-red-400 hover:text-red-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
+                <button className="p-1 rounded-md text-gray-500 dark:text-gray-400 hover:text-red-900 dark:hover:text-red hover:bg-gray-200 dark:hover:bg-gray-600">
                     <TrashIcon className="w-4 h-4" />
                 </button>
               </div>
