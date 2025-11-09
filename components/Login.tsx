@@ -12,6 +12,7 @@ const Login = ({ onSwitchToRegister }) => {
         setError('');
         try {
             await login(username, password);
+            window.location.href = '/';
         } catch (err) {
             setError('Failed to login. Please check your credentials.');
         }

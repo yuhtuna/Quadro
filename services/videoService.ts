@@ -1,30 +1,35 @@
-import axios from 'axios';
+import api from './api';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/video`;
-
-const authHeader = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        return { Authorization: `Bearer ${token}` };
-    } else {
-        return {};
-    }
-};
+const API_URL = `/video`;
 
 const processVideo = (video) => {
     const formData = new FormData();
     formData.append('video', video);
 
-    return axios.post(`${API_URL}/process`, formData, {
+    return api.post(`${API_URL}/process`, formData, {
         headers: {
-            ...authHeader(),
             'Content-Type': 'multipart/form-data',
         },
     });
 };
 
+const getHistory = () => {
+    return api.get(`${API_URL}`);
+};
+
+const deleteVideo = (id) => {
+    return api.delete(`${API_URL}/${id}`);
+};
+
+const updateVideoName = (id, name) => {
+    return api.put(`${API_URL}/${id}`, { name });
+};
+
 const videoService = {
     processVideo,
+    getHistory,
+    deleteVideo,
+    updateVideoName,
 };
 
 export default videoService;
