@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
         setToken(data.token);
         const userData = await authService.getCurrentUser();
         setUser(userData.data);
+        return userData.data;
     };
 
     const logout = () => {

@@ -1,25 +1,16 @@
-import axios from 'axios';
+import api from './api';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/user`;
-
-const authHeader = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        return { Authorization: `Bearer ${token}` };
-    } else {
-        return {};
-    }
-};
+const API_URL = `/user`;
 
 const register = (username, password) => {
-    return axios.post(`${API_URL}/register`, {
+    return api.post(`${API_URL}/register`, {
         username,
         password,
     });
 };
 
 const login = async (username, password) => {
-    const response = await axios.post(`${API_URL}/login`, {
+    const response = await api.post(`${API_URL}/login`, {
         username,
         password,
     });
@@ -34,7 +25,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return axios.get(`${API_URL}/me`, { headers: authHeader() });
+    return api.get(`${API_URL}/me`);
 };
 
 const getToken = () => {

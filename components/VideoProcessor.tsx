@@ -37,9 +37,15 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
       const getCameraStream = async () => {
         try {
           cleanupCamera(); // Ensure previous stream is stopped
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-          mediaStreamRef.current = stream;
-          if (videoRef.current) {
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            mediaStreamRef.current = stream;
+            if (videoRef.current) {
+          } else {
+            console.error("getUserMedia not supported on this browser");
+            alert("Your browser does not support camera access. Please try a different browser or use the upload option.");
+            setMode('upload');
+          }
             videoRef.current.srcObject = stream;
             videoRef.current.play().catch(console.error);
           }
@@ -146,14 +152,16 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({ onNewHistoryItem }) => 
       </div>
 
       <div className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-black/50 rounded-lg border-2 border-dashed border-gray-400 dark:border-gray-600 overflow-hidden relative min-h-[200px] md:min-h-[400px]">
-        <video
-          ref={videoRef}
-          src={videoSrc || ''}
-          controls={!!videoSrc}
-          autoPlay={mode === 'camera'}
-          muted={mode === 'camera'}
-          className={`w-full h-full object-contain transition-opacity duration-300 ${hasVideo ? 'opacity-100' : 'opacity-0'}`}
-        ></video>
+        {hasVideo && (
+          <video
+            ref={videoRef}
+            src={videoSrc || undefined}
+            controls={!!videoSrc}
+            autoPlay={mode === 'camera'}
+            muted={mode === 'camera'}
+            className="w-full h-full object-contain"
+          ></video>
+        )}
         
         {!hasVideo && mode === 'upload' && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500 dark:text-gray-400 p-8">
