@@ -1,43 +1,28 @@
-# Backend Setup
+# Backend
 
-This document provides instructions on how to set up and run the backend server for local development. This setup uses an in-memory database, so **no external database is required**.
+This directory contains the Node.js and Express backend for the Quadro application.
 
-## Prerequisites
+## Overview
 
-- Node.js
-- npm
+The backend is responsible for:
+*   User authentication (registration and login).
+*   Managing user data and history.
+*   Providing a RESTful API for the frontend.
 
-## Installation
+## Local Development
 
-1.  From the root of the project, install the backend dependencies:
-    ```bash
-    npm install --prefix backend
-    ```
+For detailed instructions on how to run the backend server as part of the full local development environment, please see the main [README.md](../../README.md) in the root of the project.
 
-## Configuration
+### Quick Start
 
-1.  Create a `.env` file in the `backend` directory.
-2.  Add the following environment variable to the `.env` file:
-    ```
-    JWT_SECRET=a_secure_secret_key
-    ```
-    - `JWT_SECRET`: A strong, unique secret for JWT signing.
-
-## Running the Server
-
-1.  From the root of the project, start the server:
-    ```bash
-    node backend/server.js
-    ```
-2.  The server will be running on `http://localhost:5000`.
+1.  **Install dependencies:** `npm install --prefix backend`
+2.  **Set up your `.env` file:** See the main README for details.
+3.  **Run the server:** `node backend/server.js`
 
 ## API Documentation
 
-The API documentation is generated using Swagger and is available when the server is running.
+The API is documented using OpenAPI (Swagger). When the server is running, you can access the interactive documentation at [http://localhost:5000/api-docs](http://localhost:5000/api-docs).
 
-1.  Start the server as described above.
-2.  Open your web browser and navigate to:
-    ```
-    http://localhost:5000/api-docs
-    ```
-    You can use this interface to view and test all the available API endpoints.
+## Deployment
+
+For instructions on how to deploy this backend to a VM as a persistent service, please see the "Deployment" section in the main [README.md](../../README.md).

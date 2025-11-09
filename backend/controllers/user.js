@@ -1,11 +1,13 @@
+const { v4: uuidv4 } = require('uuid');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
   try {
-    const { userId, username, password } = req.body;
+    const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
     const user = new User({ userId, username, password: hashedPassword });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
