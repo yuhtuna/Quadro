@@ -20,10 +20,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/user', userRoutes);
 app.use('/api/video', videoRoutes);
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
@@ -31,5 +28,5 @@ mongoose.connect(MONGO_URI, {
     });
   })
   .catch((error) => {
-    console.error('Connection error', error);
+    console.error('Connection error', error.message);
   });
