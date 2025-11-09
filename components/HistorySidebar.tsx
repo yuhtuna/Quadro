@@ -1,6 +1,6 @@
 import React from 'react';
 import { HistoryItem } from '../types';
-import { DownloadCloudIcon, VideoCameraIcon, DownloadIcon } from './Icons';
+import { DownloadCloudIcon, VideoCameraIcon, EditIcon, TrashIcon } from './Icons';
 
 interface HistorySidebarProps {
   isOpen: boolean;
@@ -23,9 +23,8 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, history }) => {
       <nav className="mt-4 flex-1 px-2 space-y-1 overflow-y-auto h-[calc(100%-4.5rem)]">
         {history.length > 0 ? (
           history.map((item) => (
-            <a
+            <div
               key={item.id}
-              href="#"
               className="group flex items-center px-3 py-3 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
             >
               <img src={item.thumbnailUrl} alt={item.name} className="h-10 w-10 rounded-md mr-3 object-cover"/>
@@ -33,8 +32,15 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, history }) => {
                 <p className="truncate">{item.name}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">{item.date}</p>
               </div>
-              <DownloadIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors ml-2" />
-            </a>
+              <div className="flex items-center ml-2">
+                <button className="p-1 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
+                    <EditIcon className="w-4 h-4" />
+                </button>
+                <button className="p-1 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
+                    <TrashIcon className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           ))
         ) : (
           <div className="text-center text-gray-500 dark:text-gray-400 p-4 flex flex-col items-center">

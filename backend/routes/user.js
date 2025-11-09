@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user');
+const { protect } = require('../middleware/authMiddleware');
 
 /**
  * @swagger
@@ -50,5 +51,21 @@ router.post('/register', userController.register);
  *         description: Bad request
  */
 router.post('/login', userController.login);
+
+/**
+ * @swagger
+ * /api/user/me:
+ *   get:
+ *     summary: Get current user
+ *     description: Get the details of the currently logged-in user.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user details
+ *       401:
+ *         description: Not authorized
+ */
+router.get('/me', protect, userController.getMe);
 
 module.exports = router;
