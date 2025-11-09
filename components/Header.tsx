@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarOpen, onLogou
           </button>
         </div>
         <div className="absolute left-1/2 -translate-x-1/2">
-            <h1 className="text-xl font-bold text-gray-700 dark:text-gray-200 tracking-wider glitch" data-text="Quadro">Quadro</h1>
+            <h1 className="text-xl font-bold text-gray-700 dark:text-gray-200 tracking-wider" data-text="Quadro">Quadro</h1>
         </div>
         <div className="flex items-center space-x-2 sm:space-x-4">
           <button

@@ -10,9 +10,9 @@ const MainApp: React.FC = () => {
     const { logout } = useAuth();
 
     const [history, setHistory] = useState<HistoryItem[]>([
-      { id: '1', name: 'First Capture.mp4', date: '2023-10-26', thumbnailUrl: 'https://picsum.photos/id/1015/100/100' },
-      { id: '2', name: 'Mountain View.mov', date: '2023-10-25', thumbnailUrl: 'https://picsum.photos/id/1018/100/100' },
-      { id: '3', name: 'Beach Sunset.avi', date: '2023-10-24', thumbnailUrl: 'https://picsum.photos/id/1025/100/100' },
+      { id: '1', name: ' Tuan.mp4', date: '2023-10-26', thumbnailUrl: 'https://picsum.photos/id/1015/100/100' },
+      { id: '2', name: 'ZIya.mov', date: '2023-10-25', thumbnailUrl: 'https://picsum.photos/id/1018/100/100' },
+      { id: '3', name: 'Heff.avi', date: '2023-10-24', thumbnailUrl: 'https://picsum.photos/id/1025/100/100' },
     ]);
 
     const toggleSidebar = useCallback(() => {
