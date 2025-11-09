@@ -1,14 +1,13 @@
 import React, { JSX } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export default function LoginPage(): JSX.Element {
-  const navigate = useNavigate();
+interface LoginPageProps {
+  onLogin: () => void;
+}
 
+export default function LoginPage({ onLogin }: LoginPageProps): JSX.Element {
   const handleSignIn = (e?: React.FormEvent) => {
     e?.preventDefault();
-    // temporary auth: mark as authenticated and go to main page
-    localStorage.setItem('isAuthenticated', '1');
-    navigate('/', { replace: true });
+    onLogin();
   };
 
   return (
@@ -26,7 +25,6 @@ export default function LoginPage(): JSX.Element {
         <div className="flex justify-end">
           <button
             type="submit"
-            onClick={() => handleSignIn()}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Sign in
